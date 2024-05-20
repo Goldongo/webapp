@@ -1,5 +1,5 @@
 <template>
-  <div class="Auth">
+  <div class="auth">
     <h1 class="title teko">GOLDONGO</h1>
     <div v-if="isSignup" class="auth-form">
       <input type="text" v-model="email" placeholder="Email" class="input rubik">
@@ -12,9 +12,9 @@
       <input type="password" v-model="password" placeholder="Password" class="input rubik">
       <button @click="login" class="auth-button rubik">Sign In</button>
     </div>
-    <div class="switch-auth rubik">
+    <div class="auth-switch rubik">
       <p>{{ isSignup ? "Already have an account?" : "Don't have an account?" }}</p>
-      <a href="#" @click.prevent="toggleAuthMode" class="a">
+      <a href="#" @click.prevent="toggleAuthMode">
         &nbsp;{{ isSignup ? "Sign in." : "Sign up." }}
       </a>
     </div>
@@ -22,8 +22,8 @@
 </template>
 
 <script>
-import { inject } from 'vue';
 import axios from 'axios';
+import { getToken, checkAuth, saveToken } from '@/utils/authUtils';
 
 export default {
   name: "Auth",
@@ -35,33 +35,41 @@ export default {
       password: ''
     };
   },
-  setup() {
-    const isDarkMode = inject('isDarkMode');
-    const toggleDarkMode = inject('toggleDarkMode');
-
-    return {
-      isDarkMode,
-      toggleDarkMode,
-    };
-  },
   methods: {
     toggleAuthMode() {
       this.isSignup = !this.isSignup;
-      // Clear input fields when switching between forms
-      this.email = '';
-      this.username = '';
-      this.password = '';
     },
     async signup() {
       try {
-        const response = await axios.post('http://localhost:8000/auth', {
+        const response = await axios.post(process.env.VUE_APP_API_USERS_IP + "/auth/signup", {
           username: this.username,
           display_name: this.email,
           password: this.password
+        }, {
+          headers: {
+            "Access-Control-Allow-Origin": "*"
+          }
         });
+        console.log('Signup successful');
+        try {
+          const formData = new URLSearchParams();
+          formData.append('username', this.email);
+          formData.append('password', this.password);
 
-        // Handle successful signup (e.g., redirect to login page or show a success message)
-        console.log('Signup successful:', response.data);
+          const followup = await axios.post(process.env.VUE_APP_API_USERS_IP + "/auth/login", formData, {
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+              "Access-Control-Allow-Origin": "*"
+            }
+          });
+
+          saveToken(followup);
+          console.log('Login successful');
+          this.$router.push('/home');
+        }
+        catch (error) {
+          console.error('Login failed:', error);
+        }
       } catch (error) {
         console.error('Signup failed:', error);
       }
@@ -72,17 +80,17 @@ export default {
         formData.append('username', this.email);
         formData.append('password', this.password);
 
-        const response = await axios.post('http://localhost:8000/auth/token', formData, {
+        const response = await axios.post(process.env.VUE_APP_API_USERS_IP + "/auth/login", formData, {
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
+            'Content-Type': 'application/x-www-form-urlencoded',
+            "Access-Control-Allow-Origin": "*"
           }
         });
 
-        console.log('Login successful:', response.data);
+        saveToken(response);
+        console.log('Login successful');
+        this.$router.push('/home');
 
-        document.cookie = `token=${response.data.access_token};path=/`;
-
-        // TODO REDIRECT TO DASHBOARD
 
       } catch (error) {
         console.error('Login failed:', error);
@@ -92,7 +100,6 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Danfo:ELSH@0..100&family=Rubik:ital,wght@0,300..900;1,300..900&family=Teko:wght@300..700&display=swap');
 
@@ -116,34 +123,42 @@ export default {
   font-style: normal;
 }
 
-.Auth {
+.auth {
   height: 100%;
   width: 30vw;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
   padding: 10% 0;
   box-sizing: border-box;
   color: var(--goldongo-text);
+  background-color: var(--goldongo-background);
 }
 
 .title {
+  margin-top: 0;
   color: var(--goldongo-medium-2);
   font-size: 5dvw;
+  background: -webkit-linear-gradient(45deg, var(--goldongo-medium-2), var(--goldongo-medium-3));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .auth-button {
   height: 3em;
-  width: 70%;
+  width: 21dvw;
   font-size: 1dvw;
-  background-color: var(--goldongo-medium-2);
   border-radius: 2dvw;
+  background: -webkit-linear-gradient(45deg, var(--goldongo-medium-2), var(--goldongo-medium-3));
   outline: transparent;
   border: 0.2dvw solid transparent;
+  background-origin: border-box;
   cursor: pointer;
   transition: border 0.1s linear;
   color: var(--goldongo-text);
+  font-weight: 400;
 }
 
 .auth-button:hover {
@@ -151,26 +166,20 @@ export default {
 }
 
 .input {
-  background-color: var(--goldongo-input);
+  background-color: var(--goldongo-foreground);
   color: var(--goldongo-text);
-  border: 0.2dvw solid transparent;
+  border: transparent;
   outline: transparent;
   height: 3em;
-  width: 70%;
+  width: 21dvw;
   border-radius: 2dvw;
   box-sizing: border-box;
   padding: 0em 1em;
   font-size: 1dvw;
-  transition: border 0.1s linear;
   margin-bottom: 1dvw;
 }
 
-.input:focus {
-  border: 0.2dvw solid var(--goldongo-medium-2);
-  transition: border 0.1s linear;
-}
-
-.switch-auth {
+.auth-switch {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -182,6 +191,10 @@ a {
   color: var(--goldongo-medium-2);
   font-weight: 600;
   font-size: 1dvw;
+  background: -webkit-linear-gradient(45deg, var(--goldongo-medium-2), var(--goldongo-medium-3));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 p {

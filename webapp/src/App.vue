@@ -1,37 +1,15 @@
 <template>
-  <div :class="wrapperClasses">
-    <AppContainer />
+  <div class="app-wrapper dark">
+    <div class="app-content">
+      <router-view />
+    </div>
   </div>
 </template>
 
 <script>
-import { ref, provide, computed } from 'vue';
-import AppContainer from "./components/AppContainer.vue";
 
 export default {
-  name: "App",
-  components: {
-    AppContainer,
-  },
-  setup() {
-    const isDarkMode = ref(true);
-
-    const toggleDarkMode = () => {
-      isDarkMode.value = !isDarkMode.value;
-    };
-    provide('isDarkMode', isDarkMode);
-    provide('toggleDarkMode', toggleDarkMode);
-
-    const wrapperClasses = computed(() => ({
-      'app-wrapper': true,
-      'dark': isDarkMode.value,
-      'light': !isDarkMode.value
-    }))
-
-    return {
-      isDarkMode, toggleDarkMode, wrapperClasses
-    };
-  },
+  name: "App"
 };
 </script>
 
@@ -62,9 +40,17 @@ body {
 .app-wrapper {
   width: 100%;
   height: 100%;
-  background-color: var(--goldongo-background);
   box-sizing: border-box;
-  padding: 2vw 4vw;
+}
+
+.app-content {
+  display: flex;
+  justify-content: center;
+  background-color: var(--goldongo-background);
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box
 }
 
 .light {
@@ -73,23 +59,21 @@ body {
   --goldongo-medium-2: rgb(40, 174, 107);
   --goldongo-medium-3: #3C907F;
   --goldongo-contrast: #1E3E5E;
-  --goldongo-background: rgb(192, 206, 199);
-  --goldongo-foreground: rgb(229, 239, 234);
-  --goldongo-text: rgb(33, 36, 34);
-  --goldongo-text-inverted: rgb(192, 206, 199);
-  --goldongo-input: white;
+  --goldongo-foreground: rgb(240, 240, 240);
+  --goldongo-background: rgb(255, 255, 255);
+  --goldongo-text: rgb(3, 3, 3);
+  --goldongo-text-inverted: rgb(250, 250, 250);
 }
 
 .dark {
   --goldongo-light: #A5FD8F;
   --goldongo-medium-1: #54C082;
-  --goldongo-medium-3: rgb(40, 174, 107);
-  --goldongo-medium-2: #3C907F;
+  --goldongo-medium-2: rgb(40, 174, 107);
+  --goldongo-medium-3: #3C907F;
   --goldongo-contrast: #1E3E5E;
-  --goldongo-background: rgb(42, 45, 43);
-  --goldongo-foreground: rgb(49, 51, 50);
-  --goldongo-text: rgb(192, 206, 199);
-  --goldongo-text-inverted: rgb(33, 36, 34);
-  --goldongo-input: var(--goldongo-background);
+  --goldongo-foreground: rgb(46, 46, 46);
+  --goldongo-background: rgb(22, 22, 22);
+  --goldongo-text: rgb(250, 250, 250);
+  --goldongo-text-inverted: rgb(3, 3, 3);
 }
 </style>
