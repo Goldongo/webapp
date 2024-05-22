@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Auth from "@/views/Auth.vue";
-import Home from "@/views/Home.vue";
+import TeamBuilding from "@/views/TeamBuilding.vue";
 
 import { getToken, checkAuth, checkTeam } from "@/utils/authUtils";
 
@@ -12,9 +12,9 @@ const routes = [
     meta: { requiresAuth: false, requiresTeam: false },
   },
   {
-    path: "/home",
-    name: "home",
-    component: Home,
+    path: "/teambuilding",
+    name: "teambuilding",
+    component: TeamBuilding,
     meta: { requiresAuth: true, requiresTeam: false },
   },
 ];
@@ -41,7 +41,7 @@ router.beforeEach(async (to, from, next) => {
     const isAuthenticated = await checkAuth();
 
     if (isAuthenticated) {
-      next({ path: "/home" });
+      next({ path: "/teambuilding" });
       return; // Return here to prevent further execution
     }
   }
