@@ -7,21 +7,19 @@
 </template>
 
 <script>
-
 export default {
-  name: "App"
+  name: "App",
 };
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Danfo:ELSH@0..100&family=Rubik:ital,wght@0,300..900;1,300..900&family=Teko:wght@300..700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Danfo:ELSH@0..100&family=Rubik:ital,wght@0,300..900;1,300..900&family=Teko:wght@300..700&display=swap");
 
 .danfo {
   font-family: "Danfo", serif;
   font-optical-sizing: auto;
   font-style: normal;
-  font-variation-settings:
-    "ELSH" 0;
+  font-variation-settings: "ELSH" 0;
 }
 
 .teko {
@@ -69,15 +67,15 @@ body {
   justify-content: center;
   align-items: center;
   background-color: var(--goldongo-background);
-  box-sizing: border-box
+  box-sizing: border-box;
 }
 
 .light {
-  --goldongo-light: #A5FD8F;
-  --goldongo-medium-1: #54C082;
+  --goldongo-light: #a5fd8f;
+  --goldongo-medium-1: #54c082;
   --goldongo-medium-2: rgb(40, 174, 107);
-  --goldongo-medium-3: #3C907F;
-  --goldongo-contrast: #1E3E5E;
+  --goldongo-medium-3: #3c907f;
+  --goldongo-contrast: #1e3e5e;
   --goldongo-foreground: rgb(240, 240, 240);
   --goldongo-background: rgb(255, 255, 255);
   --goldongo-text: rgb(3, 3, 3);
@@ -87,11 +85,11 @@ body {
 }
 
 .dark {
-  --goldongo-light: #A5FD8F;
-  --goldongo-medium-1: #54C082;
+  --goldongo-light: #a5fd8f;
+  --goldongo-medium-1: #54c082;
   --goldongo-medium-2: rgb(40, 174, 107);
-  --goldongo-medium-3: #3C907F;
-  --goldongo-contrast: #1E3E5E;
+  --goldongo-medium-3: #3c907f;
+  --goldongo-contrast: #1e3e5e;
   --goldongo-foreground: rgb(46, 46, 46);
   --goldongo-background: rgb(22, 22, 22);
   --goldongo-text: rgb(250, 250, 250);

@@ -1,47 +1,48 @@
 <template>
-    <button class="green-button rubik" @click="handleClick">{{ msg }}</button>
+  <button class="green-button rubik" @click="handleClick">{{ msg }}</button>
 </template>
 
 <script>
 export default {
-    name: "greenButton",
-    props: {
-        onClick: {
-            type: Function,
-            required: true
-        },
-        msg: {
-            type: String,
-            required: false
-        }
+  name: "greenButton",
+  props: {
+    onClick: {
+      type: Function,
+      required: true,
     },
-    methods:
-    {
-        handleClick() {
-            this.onClick();
-        }
-    }
-}
+    msg: {
+      type: String,
+      required: false,
+    },
+  },
+  methods: {
+    handleClick() {
+      this.onClick();
+    },
+  },
+};
 </script>
-
 
 <style scoped>
 .green-button {
-    height: 3em;
-    width: 21dvw;
-    font-size: 1dvw;
-    border-radius: 2dvw;
-    background: -webkit-linear-gradient(45deg, var(--goldongo-medium-2), var(--goldongo-medium-3));
-    outline: 0.2dvw solid transparent;
-    border: transparent;
-    background-origin: border-box;
-    cursor: pointer;
-    transition: outline 0.1s linear;
-    color: var(--goldongo-text);
-    font-weight: 400;
+  height: 3em;
+  width: 21dvw;
+  font-size: 1dvw;
+  border-radius: 2dvw;
+  background: -webkit-linear-gradient(
+    45deg,
+    var(--goldongo-medium-2),
+    var(--goldongo-medium-3)
+  );
+  border: 0.2dvw solid transparent;
+  background-origin: border-box;
+  cursor: pointer;
+  transition: border 0.1s linear;
+  color: var(--goldongo-text);
+  font-weight: 400;
 }
 
 .green-button:hover {
-    outline: 0.2dvw solid var(--goldongo-text)
+  border: 0.2dvw solid var(--goldongo-text);
 }
 </style>
