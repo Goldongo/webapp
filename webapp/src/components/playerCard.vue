@@ -37,9 +37,11 @@ export default {
     opacity 0.1s linear;
   box-shadow: 0 0 1dvw 0.2dvw rgba(10, 10, 10, 0.2);
 }
+
 img {
   width: 30%;
 }
+
 .card:hover {
   scale: 105%;
   opacity: 0.7;

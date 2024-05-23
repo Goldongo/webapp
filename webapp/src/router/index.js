@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Auth from "@/views/Auth.vue";
 import TeamBuilding from "@/views/TeamBuilding.vue";
+import Home from "@/views/Home.vue";
 
 import { getToken, checkAuth, checkTeam } from "@/utils/authUtils";
 
@@ -16,6 +17,12 @@ const routes = [
     name: "teambuilding",
     component: TeamBuilding,
     meta: { requiresAuth: true, requiresTeam: false },
+  },
+  {
+    path: "/home",
+    name: "home",
+    component: Home,
+    meta: { requiresAuth: true, requiresTeam: true },
   },
 ];
 
@@ -35,18 +42,30 @@ router.beforeEach(async (to, from, next) => {
         path: "/",
         query: { redirect: to.fullPath },
       });
-      return; // Return here to prevent further execution
+      return;
+    }
+
+    const hasTeam = await checkTeam();
+
+    if (to.path === "/") {
+      next({ path: "/teambuilding" });
+      return;
+    } else if (to.path === "/teambuilding" && hasTeam) {
+      next({ path: "/home" });
+      return;
+    } else if (to.meta.requiresTeam && !hasTeam) {
+      next({ path: "/teambuilding" });
+      return;
     }
   } else if (to.path === "/" && token) {
     const isAuthenticated = await checkAuth();
 
     if (isAuthenticated) {
       next({ path: "/teambuilding" });
-      return; // Return here to prevent further execution
+      return;
     }
   }
 
-  // If none of the conditions were met, proceed with the navigation
   next();
 });
 
