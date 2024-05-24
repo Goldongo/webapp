@@ -1,3 +1,5 @@
+FROM node:lts-alpine
+
 WORKDIR /webapp
 
 COPY webapp/package*.json ./
