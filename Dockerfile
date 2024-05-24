@@ -2,7 +2,7 @@ FROM node:22-alpine3.18
 
 WORKDIR /webapp
 
-COPY package.json package-lock.json ./
+COPY ..
 
 RUN npm install
 
