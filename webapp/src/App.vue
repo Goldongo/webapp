@@ -81,7 +81,18 @@ body {
   --goldongo-text: rgb(3, 3, 3);
   --goldongo-text-alt: rgb(3, 3, 3);
   --goldongo-text-inverted: rgb(250, 250, 250);
-  --goldongo-void: rgb(240, 240, 240);
+  --goldongo-void: rgb(220, 220, 220);
+  ::-webkit-scrollbar {
+    width: 0.5dvw;
+    cursor: pointer;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 1dvw;
+    background-color: rgb(180, 180, 180);
+    color: rgb(180, 180, 180);
+    cursor: pointer;
+  }
 }
 
 .dark {
@@ -96,5 +107,16 @@ body {
   --goldongo-text-alt: rgb(180, 180, 180);
   --goldongo-text-inverted: rgb(3, 3, 3);
   --goldongo-void: rgb(16, 16, 16);
+  ::-webkit-scrollbar {
+    width: 0.5dvw;
+    cursor: pointer;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 1dvw;
+    background-color: rgb(46, 46, 46);
+    color: rgb(46, 46, 46);
+    cursor: pointer;
+  }
 }
 </style>

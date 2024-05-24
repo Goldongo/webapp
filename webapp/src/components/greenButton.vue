@@ -8,7 +8,7 @@ export default {
   props: {
     onClick: {
       type: Function,
-      required: true,
+      required: false,
     },
     msg: {
       type: String,

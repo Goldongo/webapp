@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Auth from "@/views/Auth.vue";
 import TeamBuilding from "@/views/TeamBuilding.vue";
 import Home from "@/views/Home.vue";
+import Simulation from "@/views/Simulation.vue"
 
 import { getToken, checkAuth, checkTeam } from "@/utils/authUtils";
 
@@ -22,6 +23,12 @@ const routes = [
     path: "/home",
     name: "home",
     component: Home,
+    meta: { requiresAuth: true, requiresTeam: true },
+  },
+  {
+    path: "/simulation",
+    name: "simulation",
+    component: Simulation,
     meta: { requiresAuth: true, requiresTeam: true },
   },
 ];
