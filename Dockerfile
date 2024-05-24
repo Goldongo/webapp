@@ -8,6 +8,10 @@ RUN npm install
 
 COPY webapp/ .
 
-RUN npm run serve
+RUN npm run build
+
+RUN npm install -g serve
+
+CMD ["serve", "-s", "dist", "-l", "8080"]
 
 EXPOSE 8080
