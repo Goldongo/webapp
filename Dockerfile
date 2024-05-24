@@ -4,10 +4,10 @@ WORKDIR /webapp
 
 COPY webapp/package*.json ./
 
-COPY . .
-
 RUN npm install
 
-RUN npm run serve
+COPY webapp/ .
+
+RUN npm run build
 
 EXPOSE 8080
