@@ -74,8 +74,8 @@ export default {
           (
             process.env.VUE_APP_API_USERS_IP + "/auth/signup",
             {
-              username: this.username,
-              display_name: this.email,
+              username: this.email,
+              display_name: this.username,
               password: this.password
             },
             {

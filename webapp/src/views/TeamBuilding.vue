@@ -4,7 +4,7 @@
             <div class="area">
                 <div class="scrollable-content">
                     <playerCard v-for="player in players" :key="player.id" :name="player.name"
-                        @click="selectPlayer(player)" />
+                        :position="player.position" @click="selectPlayer(player)" />
                 </div>
             </div>
         </div>
@@ -27,7 +27,7 @@
                 <div class="area">
                     <div class="scrollable-content">
                         <playerCard v-for="player in selected_players" :key="player.id" :name="player.name"
-                            @click="removePlayer(player)" />
+                            :position="player.position" @click="removePlayer(player)" />
                     </div>
                 </div>
             </div>
