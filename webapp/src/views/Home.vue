@@ -1,5 +1,32 @@
 <template>
   <div class="home rubik">
+    <div v-if="showOverlay" class="overlay">
+      <div class="results-screen">
+        <button class="close-button" @click="hideOverlay">
+          <img src="@/assets/close.svg" />
+        </button>
+        <div class="result-wrapper">
+          <h1 class="name teko">{{ matchResults.final_score[0] }}&nbsp;</h1>
+          <h1 class="title teko">VS</h1>
+          <h1 class="name teko">&nbsp;{{ matchResults.final_score[2] }}</h1>
+        </div>
+        <div class="result-wrapper">
+          <h1 class="score teko">{{ matchResults.final_score[1] }}&nbsp;</h1>
+          <h1 class="title teko">-</h1>
+          <h1 class="score teko">&nbsp;{{ matchResults.final_score[3] }}</h1>
+        </div>
+        <div class="result-wrapper" style="flex-direction: column">
+          <div
+            style="display: flex; width: 100%; justify-content: center"
+            v-for="event in matchResults.team1_events.concat(
+              matchResults.team2_events
+            )"
+          >
+            <p>{{ event[0] }}&nbsp;-&nbsp;{{ event[1] }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
     <greenButton
       :onClick="logout"
       msg="Log Out"
@@ -48,6 +75,8 @@ export default {
   data() {
     return {
       users: [],
+      showOverlay: false,
+      matchResults: null,
     };
   },
   components: { greenButton },
@@ -69,6 +98,9 @@ export default {
       } catch (error) {
         console.error("Could not fetch players:", error);
       }
+    },
+    hideOverlay() {
+      this.showOverlay = false;
     },
     async simulate(other_id) {
       // Fetch self data
@@ -118,6 +150,8 @@ export default {
               }
             );
             console.log(gameResult.data);
+            this.matchResults = gameResult.data;
+            this.showOverlay = true; // Show the overlay
           } catch (error) {
             console.log("Error while simulating:", error);
           }
@@ -139,6 +173,64 @@ export default {
 </script>
 
 <style scoped>
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: var(--goldongo-text-alt);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.results-screen {
+  background-color: var(--goldongo-background);
+  border-radius: 2dvw;
+  display: flex;
+  width: 50%;
+  height: 70%;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 2dvw;
+  user-select: none;
+}
+
+.name {
+  margin: 0;
+  font-size: 4dvw;
+  color: var(--goldongo-text-alt);
+}
+
+.score {
+  margin: 0;
+  font-size: 8dvw;
+  color: var(--goldongo-text-alt);
+}
+
+.close-button {
+  position: absolute;
+  top: 2dvw;
+  right: 2dvw;
+  background-color: transparent;
+  border: transparent;
+  outline: transparent;
+  cursor: pointer;
+  padding: 0;
+  aspect-ratio: 1/1;
+  height: 2dvw;
+  img {
+    padding: 0;
+    aspect-ratio: 1/1;
+    height: 100%;
+  }
+}
+
 .home {
   height: 100%;
   width: 100%;
@@ -154,7 +246,7 @@ export default {
 }
 
 .title {
-  margin-top: 0;
+  margin: 0;
   color: var(--goldongo-medium-2);
   font-size: 5dvw;
   background: -webkit-linear-gradient(
@@ -227,5 +319,21 @@ export default {
   background-color: var(--goldongo-foreground);
   color: var(--goldongo-foreground);
   cursor: pointer;
+}
+
+.result-wrapper {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  height: fit-content;
+}
+
+p {
+  font-size: 1dvw;
+  text-wrap: pretty;
+  text-overflow: ellipsis;
+  text-align: justify;
+  margin-bottom: 0.3dvw;
 }
 </style>
